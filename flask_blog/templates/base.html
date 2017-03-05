@@ -1,0 +1,23 @@
+<html>
+<head>
+    {% if title %}
+    <title>{{title}}-flask_bog</title>
+    {% else %}
+    <title>flask_bog</title>
+    {% endif %}
+</head>
+<body>
+    <div>flask_bog:<a href="index">index</a></div>
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>
