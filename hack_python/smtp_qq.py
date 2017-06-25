@@ -28,4 +28,4 @@ def sendmail(user,pwd,to,subject,text):
 if __name__ == '__main__':
     user = 'xxx@qq.com'
     pwd = 'xxx'
-    sendmail(user,pwd,'xxx@qq.com','Re: Important','Test Message')
+    sendmail(user,pwd,'jsplyy@gmail.com','Re: Important','Test Message')
