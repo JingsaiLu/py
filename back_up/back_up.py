@@ -2,9 +2,10 @@
 import os
 import shutil
 import zipfile
-
-
+from datetime import datetime
+import glob
 def back_up(config_file_name, back_dir):
+
     config_file = ''
     if os.path.exists(back_dir):
         shutil.rmtree(back_dir)
@@ -25,9 +26,10 @@ def back_up(config_file_name, back_dir):
                         shutil.copytree(config_content, back_dir + '/' + target_dir)
                 else:
                     break
-
-    z = zipfile.ZipFile(back_dir+'.zip', 'w', zipfile.ZIP_DEFLATED)
-    startdir = back_dir+'/'
+def compress(dir_name):
+    now = datetime.now().strftime('__%Y_%m_%d__%H_%M_%S')
+    z = zipfile.ZipFile(dir_name+now+'.zip', 'w', zipfile.ZIP_DEFLATED)
+    startdir = dir_name+'/'
     for dirpath, dirnames, filenames in os.walk(startdir):
         for filename in filenames:
             file_path = os.path.join(dirpath, filename)
@@ -36,7 +38,15 @@ def back_up(config_file_name, back_dir):
     z.close()
 
 def main():
-    back_up('./config.txt','./back_dir')
+    curent_dir = os.path.split(os.path.realpath(__file__))[0]
+    config_file_name = glob.glob('*.back')[0]
+    back_dir_name = os.path.splitext(config_file_name)[0]
 
+    config_file =  curent_dir + '/' + config_file_name
+    back_dir = curent_dir + '/' + back_dir_name
+
+    back_up(config_file, back_dir)
+    compress(back_dir)
+    shutil.rmtree(back_dir)
 if __name__ == '__main__':
     main()
