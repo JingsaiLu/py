@@ -1,0 +1,96 @@
+commit 840955b5a12e2aab0361ec344e07a4a2c815601b
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Tue Sep 12 19:49:20 2017 +0800
+
+    backup demo
+
+commit d9d637627ed13d788540c7d27a45a20e12747be9
+Author: jsplyy <97014850@qq.com>
+Date:   Tue Jun 27 02:54:47 2017 +0800
+
+    update back script
+
+commit bcfa8627d63f9ce05e101442727e76380e6ef530
+Author: jsplyy <97014850@qq.com>
+Date:   Mon Jun 26 01:38:23 2017 +0800
+
+    add back up script
+
+commit 8f544c1818cf7cc3685423158eedb94dcb68838f
+Author: jsplyy <97014850@qq.com>
+Date:   Sun Jun 25 21:51:19 2017 +0800
+
+    add django
+
+commit 6280661a41b07a782fb39174b9c1a38cb3b7093b
+Author: jsplyy <97014850@qq.com>
+Date:   Sun Jun 25 21:50:52 2017 +0800
+
+    add some code
+
+commit 359c432ce7c7f59f8eab91cc8c4da167c6f20ec1
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Wed May 17 11:04:14 2017 +0800
+
+    python register
+
+commit 6390aea8232b005f1acb80ea5de7623a980f1b30
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Mon Apr 24 19:20:50 2017 +0800
+
+    add django p
+
+commit 3cf0d070d6d59c8139951705d57b9edc37ca293d
+Merge: 7461556 b843410
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Mon Apr 24 12:46:07 2017 +0800
+
+    merge .gitignore
+
+commit 74615569d09f63b1a48a507c7a06e83828609088
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Mon Apr 24 12:41:05 2017 +0800
+
+    add ssl test
+
+commit b8434102e0baea00af5507e413d1578020bf893a
+Author: jsplyy <97014850@qq.com>
+Date:   Mon Mar 27 02:19:55 2017 +0800
+
+    add py tool
+
+commit 884c3e0f0d938e8ad07c3aa0a9ef915f313eedf3
+Author: jsplyy <97014850@qq.com>
+Date:   Mon Mar 27 01:13:48 2017 +0800
+
+    add scrapy site
+
+commit c87d066873eca7e9065b5319e49f0c9478505ac4
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Wed Mar 15 22:35:19 2017 +0800
+
+    aes script
+
+commit dc0b1cf6bf87246f80f78b4c87d64d564909fad5
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Wed Mar 15 22:14:00 2017 +0800
+
+    add hash(md5 sha1 and sha256)script
+
+commit 2f8e0a4cc7fb5f1f5acf7e125085d59755b07339
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Sun Mar 5 23:12:16 2017 +0800
+
+    init flask blog
+
+commit 201d81394a77ca722fe488fb8437f24622199c72
+Author: kinsey <jingsai.lu@nxp.com>
+Date:   Sun Mar 5 19:06:18 2017 +0800
+
+    init hack_python
+
+commit 8be73adb27da8d31fcb524a21018aea1c0c17ccb
+Author: jsplyy <97014850@qq.com>
+Date:   Fri Mar 3 01:48:14 2017 +0800
+
+    add scrapy contacts
