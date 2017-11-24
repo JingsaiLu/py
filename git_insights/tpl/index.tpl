@@ -1,3 +1,4 @@
+{% set active = "summary" %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,19 +15,21 @@
             <h3><img src="./img/nxp_logo_small.png">git Insights</h3>
             <!-- </div>            -->
             <ul class="breadcrumb">
-                <li>
-                    <a href="#">主页</a> <span class="divider">/</span>
-                </li>
-                <li>
-                    <a href="#">类目</a> <span class="divider">/</span>
-                </li>
                 <li class="active">
-                    主题
+                    <a href="#">commits</a> <span class="divider">/</span>
+                </li>
+                <li class="{% if active == "summary" %}active{% endif %}">
+                    <a href="#git_diff_stat">summary</a> <span class="divider">/</span>
+                </li>
+                <li class="{% if active == "diff" %}active{% endif %}">
+                    <a href="">diff</a>
                 </li>
             </ul>
+            <h4>Recent week commits: {{git_list|length}}</h4>
             <table class="table" style="text-align: center;">
                 <thead>
                     <tr>
+                        <th>index</th>
                         <th>hash</th>
                         <th>time</th>
                         <th>author</th>
@@ -34,14 +37,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>6731879</td>
-                        <td>4 hours ago</td>
-                        <td>kinsey</td>
-                        <td>init git report project</td>
-                    </tr>
                     {% for item in git_list %}
                     <tr>
+                        <td>{{loop.index}}</td>
                         <td>{{item[0]}}</td>
                         <td>{{item[1]}}</td>
                         <td>{{item[2]}}</td>
@@ -50,12 +48,8 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <code>ddddddddddddd</code>
-            <section>deeeeeeeeeeeee</section>
-            <pre>tttttttttttt
-wwww
-            swwwwwww
-            </pre>
+            <div id="git_diff_stat"><pre>{{git_diff_stat}}</pre></div>
+
         </div>
     </div>
 </div>
