@@ -4,13 +4,13 @@
     <!-- </div>            -->
     <ul class="breadcrumb">
         <li class="active">
-            <a href="#">commits</a> <span class="divider">/</span>
+            <a href="#">general info</a> <span class="divider">/</span>
         </li>
         <li class="{% if active == "summary" %}active{% endif %}">
-            <a href="#git_diff_stat">summary</a> <span class="divider">/</span>
+            <a href="./summary.html">summary report</a> <span class="divider">/</span>
         </li>
         <li class="{% if active == "diff" %}active{% endif %}">
-            <a href="">diff</a>
+            <a href="./detail.html">detail report</a>
         </li>
     </ul>
 </div>
