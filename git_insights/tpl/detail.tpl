@@ -1,3 +1,5 @@
+{% set active = "detail" %}
+
 {% extends "base.tpl" %}  
 
 {% block title %}Week commits{% endblock %}  
