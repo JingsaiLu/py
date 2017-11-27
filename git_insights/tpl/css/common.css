@@ -2,3 +2,17 @@
     /*background-color: #4CAF50;*/
     color: red;
 }
+.commit_num{
+    /*color: blue;*/
+}
+.commit_files{
+    display: none;
+    position:relative;
+    float: right;
+    left:0;
+    top:15px;
+    z-inde:5;
+    width: 400px;
+    height: 300px;
+    background-color: blue;
+}

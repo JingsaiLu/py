@@ -77,7 +77,7 @@ def get_gitdiff_patch():
             patch = patch + line
             if line.encode('utf-8').startswith('commit '):
                 i = i + 1
-        print i
+        print 'commit number:', i
     os.remove('..git.temp')
     return cgi.escape(patch)
 
@@ -141,15 +141,22 @@ def gen_general_info(repo_path, repo_branch, report_path):
     info['total_authors'] = len(set(get_pipeout(gitcmds['total_author']).strip('\n').split('\n')))
     os.chdir(cwd)
     return info
-
+def get_commit_file(repo_path, commit):
+    cwd = os.getcwd()
+    os.chdir(repo_path)
+    cmd = 'git show ' + commit + ' --stat'
+    print cmd
+    print get_pipeout(cmd)
+    os.chdir(cwd)
 def main():
 
     args = parse_args()
     general_info = gen_general_info(args['d'], args['branch'], args['out'])
-    print general_info
     git_log = get_gitlog(args['d'])
     git_diff_detail = get_gitdiff_stat(args['d'], git_log[0][0], git_log[len(git_log)-1][0])
     gen_report(args['out'], 'summary', general_info, git_log, git_diff_detail)
+
+    get_commit_file(args['d'], git_log[0][0])
     webbrowser.open('//'.join([os.getcwd(),args['out'],'general.html']))
  
 if __name__ == '__main__':
