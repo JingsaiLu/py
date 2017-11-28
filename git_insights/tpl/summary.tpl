@@ -23,9 +23,9 @@
                 <tr>
                     <td>{{loop.index}}</td>
                     <td>
-                        <div id='commit_num' class="commit_num btn btn-success" title="Commit files"
+                        <div id='commit_id' class="commit_id btn btn-success" title="Commit files"
                         data-container="body" data-toggle="popover" data-placement="right" data-html='true'
-                        data-content="<a href='#'>http://www.baidu.com</a>">{{item[0]}}</div>
+                        data-content="{{commits_stat[item[0]]}}">{{item[0]}}</div>
                         <div id='commit_files' class="commit_files">hhhh</div>
                     </td>
                     <td>{{item[1]}}</td>
@@ -38,11 +38,11 @@
     </div>
     <div id="git_diff_stat">
         <h4>Recent week commit files</h4>
-        <pre>{{git_diff_stat}}</pre>
+        <pre>{{git_weekly_diff}}</pre>
     </div>
 
-<script type="text/javascript" src="./js/common.js"></script>
 <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./js/common.js"></script>
 </div>
 
 {% endblock %}  
