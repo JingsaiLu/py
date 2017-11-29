@@ -1,0 +1,13 @@
+{
+    "repo_path": "./repo",
+    "git_repo":[
+        [
+            {"repo_url": "git@gitee.com:jsplyy/test.git"},
+            {"repo_branch":["master","develop"]}
+        ],
+        [
+            {"repo_url": "git@gitee.com:jsplyy/test.git"},
+            {"repo_branch":["master","develop"]}
+        ]
+    ]
+}
