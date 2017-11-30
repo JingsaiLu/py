@@ -20,7 +20,7 @@ class GitRepoCollector(object):
     def __init__(self, repo_path, repo_branch, output_path):
         super(GitRepoCollector, self).__init__()
 
-        self.git_cmds = {'weekdiff': 'git log -p --since=5.week',
+        self.git_cmds = {'weekdiff': 'git log -p --since=1.week',
             'gitversion': 'git --version',
             'gitremote': 'git remote -v',
             'total_commits_win': 'git log --oneline --pretty="%h %an" | find /c " " ',
@@ -28,20 +28,26 @@ class GitRepoCollector(object):
         }
 
         self.repo_path = os.path.abspath(repo_path)
+        self.repo_name = self.repo_path.split('\\')[-1]
         self.repo_branch = repo_branch
         self.output_path = os.path.abspath(output_path)
-        self.gen_date = time.asctime(time.localtime(time.time()))
+        self.gen_date = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
         self.git_commits = []
 
     def get_pipeout(self, cmd, cwd=None):
         if cwd is None:
             cwd = self.repo_path
-        p = subprocess.Popen(cmd, 0, None, None, subprocess.PIPE, subprocess.PIPE, cwd=cwd, shell=True)
+        p = subprocess.Popen(cmd, 0, None, None, subprocess.PIPE, subprocess.STDOUT, cwd=cwd, shell=True)
         str =''
-        for line in p.stdout:
-            str = str + line
-        p.wait()
-        return str.strip('\n')
+        returncode = p.poll()
+        while returncode is None:
+            line = p.stdout.readline()
+            returncode = p.poll()
+            str = str+line
+        # for line in p.stdout:
+        #     str = str + line
+        # p.wait()
+        return str.strip()
 
     def get_weeeks_commits(self, weeks='1'):
         cmd = 'git log --pretty=oneline --format="%h - %ar - %an : %s" --since='+str(weeks)+'.week'
@@ -89,11 +95,11 @@ class GitRepoCollector(object):
         self.git_remote = self.get_git_remote()
         self.total_commits = self.get_git_allcommits()
         self.total_authors = self.get_git_authors()
-        print self.git_commits
+        # print self.git_commits
         if self.git_commits=='':
             self.weekly_diff ='No commit in recent weeks.'
         else:
-            self.weekly_diff = self.get_diff_stat(self.git_commits[0][0], self.git_commits[len(self.git_commits)-1][0])
+            self.weekly_diff = self.get_diff_stat(self.git_commits[0][0], self.git_commits[len(self.git_commits)-1][0]+'~1')
         self.commits_stat = self.get_commits_stat()
 
 def get_gitdiff_patch(): 
@@ -121,15 +127,16 @@ class ReportGenerator(object):
     """docstring for ReportGenerator"""
     def __init__(self, repo, output_path):
         super(ReportGenerator, self).__init__()
-        self.output_path = os.path.abspath(output_path)
-        self.repo = repo
+        self.repo = repo        
+        self.output_path = os.path.abspath(output_path)+'//'+self.repo.repo_name+'_'+self.repo.repo_branch.replace('/','_')+'_'+self.repo.gen_date
+
         self.init_output()
         
     def init_output(self):
         if os.path.exists(self.output_path):
             os.rename(self.output_path, 'output_del')
             shutil.rmtree('output_del')
-        os.mkdir(self.output_path)
+        os.makedirs(self.output_path)
         shutil.copytree('./tpl/css', '//'.join([self.output_path,'css']))
         shutil.copytree('./tpl/js', '//'.join([self.output_path,'js']))
         shutil.copytree('./tpl/img', '//'.join([self.output_path,'img']))
@@ -148,7 +155,7 @@ class ReportGenerator(object):
                 str_f = str_f + "'<a href='./detail.html#" + str(i) + str(k) + "'>" + j + "</a><br>"
                 k = k + 1
             commits_stat[i] = str_f
-            print commits_stat[i]
+            # print commits_stat[i]
             # commits_stat[i] = cgi.escape('<a>'+ '</a><br><a>'.join(v) + '</a>')
         template = env.get_template(tpl_name+'.tpl')
         r_content = template.render(git_list = self.repo.git_commits, git_weekly_diff=self.repo.weekly_diff,commits_stat = commits_stat)
@@ -169,7 +176,7 @@ class ReportGenerator(object):
                     j = 0
                 if line.startswith('diff --git'):
                     mao = str(self.repo.git_commits[i][0]) + str(j)
-                    line = "<code name='" + mao + "' id='" + mao +"'></code>" + line + "------------------" + mao + "\n"
+                    line = "<code name='" + mao + "' id='" + mao +"'></code><b>" + line + "</b>------------------" + mao + "\n"
                     j = j + 1
                 if line.startswith('+'):
                     line = '<code style="color: red">' + line + "</code>"
@@ -194,9 +201,9 @@ def main():
     args = parse_args()
     # webbrowser.open('//'.join([os.getcwd(),args['out'],'general.html']))
 
-    args['d'] = 'C:\git\mcu_PSDK_test_imx8qxp_m4\mcu-sdk'
+    # args['d'] = 'C:\git\mcu_PSDK_test_imx8qxp_m4\mcu-sdk'
     # args['d'] = '../'
-    repo = GitRepoCollector(args['d'], 'master', args['out'])
+    repo = GitRepoCollector(args['d'], 'sdk_2.0', args['out'])
     repo.generate(1)
     report = ReportGenerator(repo, args['out'])
     report.generate_report()
