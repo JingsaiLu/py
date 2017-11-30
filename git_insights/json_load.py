@@ -27,15 +27,21 @@ class GitRepo(object):
         self.clone()
         self.pull()
 
-
     def clone(self):
-        cmd = ' '.join(['git clone',self.repo_url])
+        cmd = ' '.join(['git clone',self.repo_url, '--recursive'])
         str = self.get_pipeout(cmd)
         self.repo_path = '/'.join([self.repo_path, self.repo_name])
         return str
     def pull(self):
         cmd = 'git pull'
-        return self.get_pipeout(cmd)
+        str = self.get_pipeout(cmd)
+        self.current_branch()
+        return str
+
+    def current_branch(self):
+        cmd = 'git branch'
+        self.current_branch = self.get_pipeout(cmd).split('\n')[0][2:]
+
 
     def checkout(self, branch):
         cmd = ' '.join(['git checkout', branch])
@@ -53,9 +59,6 @@ class GitRepo(object):
             line = p.stdout.readline()
             returncode = p.poll()
             str = str+line
-        # for line in p.stdout:
-        #     str = str + line
-        # p.wait()
         return str.strip()
 
 global config_file
@@ -66,5 +69,7 @@ with open('config.json', 'r') as fd:
 
 # sdk2 = GitRepo('./output', 'ssh://git@sw-stash.freescale.net/mcucore/mcu-sdk-2.0.git')
 # sdk2 = GitRepo('./output', 'git@github.com:jsplyy/py.git --recursive')
-sdk2 = GitRepo('./output', 'ssh://B57825@10.192.244.6:29418/mcu_PSDK_test')
-sdk2.checkout('sdk_2.0')
+# sdk2 = GitRepo('./output', 'ssh://B57825@10.192.244.6:29418/mcu_PSDK_test')
+
+sdk2 = GitRepo(config_file['repo_path'], 'git@gitee.com:sentsin/layui.git')
+# sdk2.checkout('sdk_2.0')

@@ -10,10 +10,66 @@ import codecs
 import cgi
 import webbrowser
 import argparse
+import json
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 from jinja2 import Environment, FileSystemLoader
 
 env = Environment(loader = FileSystemLoader('tpl'))
+
+class GitRepo(object):
+    """docstring for GitRepo"""
+    def __init__(self, repo_path, repo_url):
+        super(GitRepo, self).__init__()
+        self.repo_url = repo_url
+        if repo_url.startswith('git'):
+            self.repo_name = '_'.join(repo_url.split('/')[-1].split('.')[0:-1])
+        else:
+            self.repo_name = repo_url.split('/')[-1]
+        self.repo_path = repo_path
+        if not os.path.exists(self.repo_path):
+            os.makedirs(self.repo_path)
+        self.clone()
+        self.pull()
+
+    def clone(self):
+        cmd = ' '.join(['git clone',self.repo_url, '--recursive'])
+        str = self.get_pipeout(cmd)
+        self.repo_path = '/'.join([self.repo_path, self.repo_name])
+        return str
+
+    def pull(self):
+        cmd = 'git pull'
+        str = self.get_pipeout(cmd)
+        self.get_current_branch()
+        return str
+
+    def get_current_branch(self):
+        cmd = 'git branch'
+        branch = self.get_pipeout(cmd).split('\n')
+        for line in branch:
+            if line.startswith('* '):
+                self.current_branch = line[2:]
+
+    def checkout(self, branch):
+        cmd = ' '.join(['git checkout', branch])
+        str = self.get_pipeout(cmd)
+        str = str + '\n' + self.pull()
+        return str
+
+    def get_pipeout(self, cmd, cwd=None):
+        if cwd is None:
+            cwd = self.repo_path
+        p = subprocess.Popen(cmd, 0, None, None, subprocess.PIPE, subprocess.STDOUT, cwd=cwd, shell=True)
+        str =''
+        returncode = p.poll()
+        while returncode is None:
+            line = p.stdout.readline()
+            returncode = p.poll()
+            str = str+line
+        return str.strip()
 
 class GitRepoCollector(object):
     """docstring for GitInfo"""
@@ -102,27 +158,6 @@ class GitRepoCollector(object):
             self.weekly_diff = self.get_diff_stat(self.git_commits[0][0], self.git_commits[len(self.git_commits)-1][0]+'~1')
         self.commits_stat = self.get_commits_stat()
 
-def get_gitdiff_patch(): 
-    patch = ''
-    r_str = get_pipeout(gitcmds['weekdiff'])
-    i = 0
-    with codecs.open('..git.temp','r', 'utf-8') as fd:
-        for line in fd:
-            patch = patch + line
-            if line.encode('utf-8').startswith('commit '):
-                i = i + 1
-        # print 'commit number:', i
-    os.remove('..git.temp')
-    return cgi.escape(patch)
-
-def parse_args():
-    parser = argparse.ArgumentParser(description='Git Weekly Report manual')
-    parser.add_argument('--d', type=str, default = './', help = 'destination of git repo path')
-    parser.add_argument('--branch', type=str, default=None, help = 'git repo branch')
-    parser.add_argument('--out', type=str, default='./output/', help = 'output direction')
-    args = parser.parse_args()
-    return vars(args)    
-
 class ReportGenerator(object):
     """docstring for ReportGenerator"""
     def __init__(self, repo, output_path):
@@ -193,20 +228,42 @@ class ReportGenerator(object):
 
     def generate_report(self):
         self.gen_general_report('general')
-        self.gen_summary_report('summary')
+        self.gen_summary_report('index') #summary
         self.gen_detail_report('detail')
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Git Weekly Report manual')
+    parser.add_argument('--d', type=str, default = None, help = 'destination of git repo path')
+    parser.add_argument('--branch', type=str, default=None, help = 'git repo branch')
+    parser.add_argument('--out', type=str, default=None, help = 'output direction')
+    parser.add_argument('--c', type=str, default='./config.json', help = 'Json config file.')
+    args = parser.parse_args()
+    return vars(args)    
 
 def main():
 
     args = parse_args()
-    # webbrowser.open('//'.join([os.getcwd(),args['out'],'general.html']))
-
-    # args['d'] = 'C:\git\mcu_PSDK_test_imx8qxp_m4\mcu-sdk'
-    # args['d'] = '../'
-    repo = GitRepoCollector(args['d'], 'sdk_2.0', args['out'])
-    repo.generate(1)
-    report = ReportGenerator(repo, args['out'])
-    report.generate_report()
+    if None in (args['d'], args['branch'], args['out']):
+        # webbrowser.open('//'.join([os.getcwd(),args['out'],'general.html']))
+        global configs
+        with open(args['c'], 'r') as fd:
+           configs = json.load(fd)
+        n = len(configs['git_repo'])
+        for i in range(0,n):
+            repo_url = configs['git_repo'][i][0]['repo_url']
+            repo = GitRepo(configs['repo_path'], repo_url)
+            m = len(configs['git_repo'][i][1]['repo_branch'])
+            for j in range(0,m):          
+                repo.checkout(configs['git_repo'][i][1]['repo_branch'][j])
+                collector = GitRepoCollector(repo.repo_path, repo.current_branch, configs['output_path'])
+                collector.generate(1)
+                report = ReportGenerator(collector, configs['output_path'])
+                report.generate_report()
+    else:
+        repo = GitRepoCollector(args['d'], args['branch'], args['out'])
+        repo.generate(1)
+        report = ReportGenerator(repo, args['out'])
+        report.generate_report()
 
 if __name__ == '__main__':
     main()

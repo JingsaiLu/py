@@ -6,18 +6,38 @@
 
 {% block main %}
 <div id="main_block">
-    <div id="general">
+    <div id="general" style="width: 60%; margin: 0 auto;">
         <div>
-            <dl>
-                <dt>Tool version:</dt><dd>{{general_info.git_version}} </dd><br>
-                <dt>Date of report:</dt><dd>{{general_info.gen_date}} </dd><br>
-                <dt>Git repo:</dt><dd>{{general_info.git_remote}} </dd><br>
-                <dt>Git repo path:</dt><dd>{{general_info.repo_path}} </dd><br>
-                <dt>Git repo branch:</dt><dd>{{general_info.repo_branch}} </dd><br>
-                <dt>Report path:</dt><dd>{{general_info.output_path}} </dd><br>
-                <dt>Total commits:</dt><dd>{{general_info.total_commits}} </dd><br>
-                <dt>Total author:</dt><dd>{{general_info.total_authors}} </dd><br>
-            </dl>
+            <table class="table" style="border:1px solid #ddd">
+                <tbody>
+                    <tr>
+                        <td>Tool version:</td><td>{{general_info.git_version}} </td>
+                    </tr>
+                    <tr>
+                        <td>Date of report:</td><td>{{general_info.gen_date}} </td>
+                    </tr>
+                    <tr>
+                        <td>Git repo:</td><td>{{general_info.git_remote}} </td>
+                    </tr>
+                    <tr>
+                        <td>Git repo path:</td><td>{{general_info.repo_path}} </td>
+                    </tr>
+                    <tr>
+                        <td>Git repo branch:</td><td>{{general_info.repo_branch}} </td>
+                    </tr>
+                    <tr>
+                        <td>Report path:</td><td>{{general_info.output_path}} </td>
+                    </tr>
+                    <tr>
+                        <td>Repo total commits:</td><td>{{general_info.total_commits}} </td>
+                    </tr>
+                    <tr>
+                        <td>Repo total authors:</td><td>{{general_info.total_authors}} </td>
+                    </tr>                    
+                </tbody>
+
+                
+            </table>
             
                        
         </div>

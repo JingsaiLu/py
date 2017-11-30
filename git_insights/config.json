@@ -1,17 +1,10 @@
 {
-    "repo_path": "./repo",
+    "repo_path": "c://repos",
+    "output_path": "./output",
     "git_repo":[
         [
-            {"repo_url": "ssh://git@sw-stash.freescale.net/mcucore/mcu-sdk-2.0.git"},
-            {"repo_branch":["develop/sdk_api_2.x","release/rel_sdk_imx8qx_2.2.0_ear"]}
-        ],
-        [
-            {"repo_url": "ssh://B57825@10.192.244.6:29418/mcu_PSDK_test"},
-            {"repo_branch":["sdk_2.0"]}
-        ],
-        [
-            {"repo_url": "git@github.com:jsplyy/py.git"},
-            {"repo_branch":["master"]}
+            {"repo_url": "git@gitee.com:sentsin/layui.git"},
+            {"repo_branch":["master","dev"]}
         ]
     ]
 }

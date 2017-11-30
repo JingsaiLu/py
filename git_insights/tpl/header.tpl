@@ -7,7 +7,7 @@
             <a class="{% if active == "general" %}active{% endif %}" href="./general.html">general info</a> <span class="divider">/</span>
         </li>
         <li >
-            <a class="{% if active == "summary" %}active{% endif %}" href="./summary.html">summary report</a> <span class="divider">/</span>
+            <a class="{% if active == "summary" %}active{% endif %}" href="./index.html">summary report</a> <span class="divider">/</span>
         </li>
         <li >
             <a class="{% if active == "detail" %}active{% endif %}" href="./detail.html">detail report</a>
