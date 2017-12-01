@@ -24,8 +24,8 @@ class GitRepo(object):
     def __init__(self, repo_path, repo_url):
         super(GitRepo, self).__init__()
         self.repo_url = repo_url
-        if repo_url.startswith('git'):
-            self.repo_name = '_'.join(repo_url.split('/')[-1].split('.')[0:-1])
+        if repo_url.endswith('.git'):
+            self.repo_name = '.'.join(repo_url.split('/')[-1].split('.')[0:-1])
         else:
             self.repo_name = repo_url.split('/')[-1]
         self.repo_path = repo_path

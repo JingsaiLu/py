@@ -3,7 +3,7 @@
     "output_path": "./output",
     "git_repo":[
         [
-            {"repo_url": "git@gitee.com:sentsin/layui.git"},
+            {"repo_url": "https://gitee.com/sentsin/layui.git"},
             {"repo_branch":["master","dev"]}
         ]
     ]

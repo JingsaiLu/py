@@ -1,0 +1,14 @@
+{
+    "repo_path": "c://repos",
+    "output_path": "./output",
+    "git_repo":[
+        [
+            {"repo_url": "https://gitee.com/sentsin/layui.git"},
+            {"repo_branch":["master","dev"]}
+        ],
+        [
+            {"repo_url": "https://gitee.com/jfinal/jfinal.git"},
+            {"repo_branch":["master","jfinal-java8-3.3"]}
+        ]
+    ]
+}
