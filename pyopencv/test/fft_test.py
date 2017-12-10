@@ -14,6 +14,7 @@ f = np.fft.fft2(h) # 快速傅里叶变换算法得到频率分布
 fshift = np.fft.fftshift(f) # 默认结果中心点位置是在左上角，转移到中间位置
  
 fimg = np.log(np.abs(fshift)) # fft 结果是复数，求绝对值结果才是振幅
+print fimg
  
 # 展示结果
 plt.subplot(121), plt.imshow(img, 'gray'), plt.title('Original Fourier')  
