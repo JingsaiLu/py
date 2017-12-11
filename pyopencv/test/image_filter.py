@@ -42,4 +42,6 @@ plt.subplot(2,3,5),plt.imshow(median,'gray')#默认彩色，另一种彩色bgr
 bila = cv2.bilateralFilter(img,9,75,75)
 plt.subplot(2,3,6),plt.imshow(bila,'gray')#默认彩色，另一种彩色bgr
 
+wm = plt.get_current_fig_manager()
+wm.window.state('zoomed')
 plt.show()
