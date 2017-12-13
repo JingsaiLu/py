@@ -133,7 +133,7 @@ if __name__ == '__main__':
     try: fn1, fn2 = args
     except:
         fn1 = '../pxp_red.jpg'
-        fn2 = '../square1.jpg'
+        fn2 = '../pxp_blue.jpg'
 
     img1 = cv2.imread(fn1, 0)
     img2 = cv2.imread(fn2, 0)
